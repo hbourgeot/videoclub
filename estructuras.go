@@ -6,7 +6,6 @@ import (
 )
 
 type Nodo struct {
-	ID       int
 	Titulo   string
 	Director string
 	Year     int
@@ -17,27 +16,33 @@ type Lista struct {
 	head *Nodo
 }
 
-func (l *Lista) AgregarNodo(id int, titulo string, director string, year int) {
+type Cola struct {
+	head *Nodo
+	tail *Nodo
+}
+
+func (l *Lista) AgregarNodo(titulo string, director string, year int) {
 	var nuevoNodo *Nodo = &Nodo{
 		Titulo:   titulo,
 		Director: director,
 		Year:     year,
-		ID:       id,
 		Sig:      l.head,
 	}
 
 	l.head = nuevoNodo
-	fmt.Printf("Creado nuevo Nodo con el ID #%d", nuevoNodo.ID)
 }
 
 func (l *Lista) Mostrar() {
 	var actual *Nodo = l.head
+	var i int = 0
 	for actual != nil {
-		fmt.Printf("ID: %d\nTitulo de la pelicula: %s\nDirector: %s\nAño: %d\n")
+		fmt.Printf("ID: %d\nTitulo de la pelicula: %s\nDirector: %s\nAño: %d\n", i, actual.Titulo, actual.Director, actual.Year)
 		for i := 0; i < len(actual.Titulo)+23; i++ {
 			fmt.Print("-")
 		}
 		fmt.Println("\n\n")
+		actual = actual.Sig
+		i++
 	}
 }
 

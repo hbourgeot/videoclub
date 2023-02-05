@@ -22,8 +22,8 @@ func main() {
 	for {
 		var opc int
 		fmt.Println("****** INICIAR SESIÓN ******")
-		fmt.Println("\t\n1. Log in")
-		fmt.Println("\t\n2. Salir\n")
+		fmt.Println("\n\t1. Log in")
+		fmt.Println("\t2. Salir\n")
 		fmt.Print("Ingresa una opción: ")
 		_, err = fmt.Scanln(&opc)
 		if err != nil {
@@ -57,6 +57,7 @@ func main() {
 					break
 				case 2:
 					fmt.Println("Bienvenido admin")
+					admin()
 					break
 				}
 			} else {
