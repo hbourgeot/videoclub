@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"jose/project/internal/models"
 	"log"
 )
 import _ "github.com/go-sql-driver/mysql"
@@ -10,6 +11,13 @@ import _ "github.com/go-sql-driver/mysql"
 func main() {
 	var usuario, clave string
 	var err error
+	var bd *sql.DB
+
+	bd, err = abrirBD()
+	if err != nil {
+		log.Println(err)
+		return
+	}
 
 	for {
 		var opc int
@@ -39,12 +47,23 @@ func main() {
 				continue
 			}
 
-			//var bd *sql.DB
-			_, err = abrirBD(usuario, clave)
-			if err != nil {
-				log.Println(err)
+			var user *models.VideoClubUserModel = &models.VideoClubUserModel{BD: bd}
+
+			if user.Authenticate(usuario, clave) {
+				var nivel int = user.ObtenerNivel(usuario)
+				switch nivel {
+				case 1:
+					fmt.Println("Bienvenido usuario")
+					break
+				case 2:
+					fmt.Println("Bienvenido admin")
+					break
+				}
+			} else {
+				fmt.Println("Credenciales incorrectas, adiós")
 				continue
 			}
+
 		case 2:
 			fmt.Print("\nBye")
 			return
@@ -52,11 +71,11 @@ func main() {
 	}
 }
 
-func abrirBD(usuario, clave string) (*sql.DB, error) {
+func abrirBD() (*sql.DB, error) {
 	var bd *sql.DB
 	var err error
 
-	bd, err = sql.Open("mysql", fmt.Sprintf("%s:%s@/videoClub", usuario, clave))
+	bd, err = sql.Open("mysql", "root:Wini.h16b.@/videoclub")
 	if err != nil {
 		return nil, err
 	}
