@@ -44,6 +44,7 @@ func (l *Lista) Mostrar() {
 		actual = actual.Sig
 		i++
 	}
+	fmt.Println(l.head)
 }
 
 func (l *Lista) QuitarNodo(titulo string) {
@@ -76,6 +77,7 @@ func (l *Lista) BuscarNodo(titulo string) (*Nodo, error) {
 		temp = temp.Sig
 	}
 
+	fmt.Println(l.head)
 	var err error = errors.New("Pelicula no encontrada")
 	return nil, err
 }
@@ -92,4 +94,47 @@ func (l *Lista) ActualizarNodo(titulo, nuevoTitulo, nuevoDirector string, nuevoY
 	actual.Director = nuevoDirector
 	actual.Year = nuevoYear
 	return nil
+}
+
+// Cola
+func (c *Cola) Encolar(titulo string, director string, year int) {
+	nuevoNodo := &Nodo{
+		Titulo:   titulo,
+		Director: director,
+		Year:     year,
+		Sig:      nil,
+	}
+
+	//Si es el final de la cola
+	if c.head == nil {
+		c.head = nuevoNodo
+		return
+	}
+
+	actual := c.head
+	for ; actual.Sig != nil; actual = actual.Sig {
+	}
+	actual.Sig = nuevoNodo
+}
+
+func (c *Cola) Desencolar() {
+	c.head = c.head.Sig
+
+	if c.head == nil {
+		c.tail = nil
+	}
+}
+
+func (c *Cola) Mostrar() {
+	var actual *Nodo = c.head
+	var i int = 0
+	for actual != nil {
+		fmt.Printf("ID: %d\nTitulo de la pelicula: %s\nDirector: %s\nAño: %d\n", i, actual.Titulo, actual.Director, actual.Year)
+		for i := 0; i < len(actual.Titulo)+23; i++ {
+			fmt.Print("-")
+		}
+		fmt.Println("\n\n")
+		actual = actual.Sig
+		i++
+	}
 }
