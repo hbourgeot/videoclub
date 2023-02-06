@@ -93,3 +93,27 @@ func (l *Lista) ActualizarNodo(titulo, nuevoTitulo, nuevoDirector string, nuevoY
 	actual.Year = nuevoYear
 	return nil
 }
+
+//Cola
+func (l *Lista) AddBackward(titulo string, director string, year int) {
+	nuevoNodo := &Nodo{
+		Titulo:   titulo,
+		Director: director,
+		Year:     year,
+		Next: nil,
+	}
+
+	//Si es el final de la cola
+	if l.Head == nil {
+		l.Head = nuevoNodo
+		l.Lenght++
+		return
+	}
+
+	actual := l.Head
+	for ; actual.Next != nil; actual = actual.Next {
+	}
+	actual.Next = nuevoNodo
+
+	l.Print()
+}
