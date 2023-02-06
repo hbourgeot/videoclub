@@ -12,6 +12,8 @@ func main() {
 	var usuario, clave string
 	var err error
 	var bd *sql.DB
+	var VideoClub *Lista = &Lista{}
+	var VideoClubAlquiladas *Cola = &Cola{}
 
 	bd, err = abrirBD()
 	if err != nil {
@@ -53,11 +55,10 @@ func main() {
 				var nivel int = user.ObtenerNivel(usuario)
 				switch nivel {
 				case 1:
-					fmt.Println("Bienvenido usuario")
+					standard(VideoClub, VideoClubAlquiladas)
 					break
 				case 2:
-					fmt.Println("Bienvenido admin")
-					admin()
+					admin(VideoClub)
 					break
 				}
 			} else {

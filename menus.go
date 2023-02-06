@@ -6,10 +6,9 @@ import (
 	"time"
 )
 
-func admin() {
+func admin(VideoClub *Lista) {
 	var opc int
 	var err error
-	var VideoClub *Lista = &Lista{}
 	for {
 		fmt.Println("\t******************************")
 		fmt.Println("\t******************************")
@@ -119,7 +118,7 @@ func admin() {
 	}
 }
 
-func standart() {
+func standard(VideoClub *Lista, VideoClubAlquilada *Cola) {
 	var opc int
 	var titulo string
 	var err error
@@ -131,7 +130,7 @@ func standart() {
 		time.Sleep(3 * time.Second)
 
 		fmt.Println("\n1. Buscar película")
-		fmt.Println("2. Verificar película")
+		fmt.Println("2. Alquilar una película")
 		fmt.Println("3. Regresar una película")
 		fmt.Println("4. Mostrar peliculas alquiladas")
 		fmt.Println("5. Cerrar sesión")
@@ -140,6 +139,54 @@ func standart() {
 		if err != nil {
 			log.Println(err)
 			continue
+		}
+		switch opc {
+		case 1:
+			fmt.Print("Ingrese titulo de la pelicula: ")
+			_, err = fmt.Scanln(&titulo)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+
+			var pelicula *Nodo
+			fmt.Println(titulo)
+			pelicula, err = VideoClub.BuscarNodo(titulo)
+
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+
+			fmt.Printf("\nTitulo: %s\nDirector: %s\nAño: %d\n", pelicula.Titulo, pelicula.Director, pelicula.Year)
+			break
+		case 2:
+			fmt.Print("Ingrese titulo de la pelicula: ")
+			_, err = fmt.Scanln(&titulo)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+
+			var pelicula *Nodo
+			pelicula, err = VideoClub.BuscarNodo(titulo)
+
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+
+			VideoClubAlquilada.Encolar(pelicula.Titulo, pelicula.Director, pelicula.Year)
+			break
+		case 3:
+			VideoClubAlquilada.Desencolar()
+			break
+		case 4:
+			VideoClubAlquilada.Mostrar()
+			time.Sleep(5 * time.Second)
+			break
+		case 5:
+			return
 		}
 	}
 }
